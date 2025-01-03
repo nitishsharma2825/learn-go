@@ -14,7 +14,8 @@ func main() {
 	}
 
 	defer conn.Close()
-	mustCopy(os.Stdout, conn)
+	go mustCopy(os.Stdout, conn)
+	mustCopy(conn, os.Stdin)
 }
 
 func mustCopy(dst io.Writer, src io.Reader) {
