@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+// files will be generated on this location
+option go_package = "./proto";
+
+package greet_service;
+
+service GreetService {
+    rpc SayHello(NoParam) returns (HelloResponse);
+
+    rpc SayHelloServerStreaming(NamesList) returns (stream HelloResponse);
+
+    rpc SayHelloClientStreaming(stream HelloRequest) returns (MessagesList);
+
+    rpc SayHelloBidirectionalStreaming(stream HelloRequest) returns (stream HelloResponse);
+}
+
+message NoParam {};
+
+message HelloResponse {
+    string message = 1;
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message NamesList {
+    repeated string names = 1;
+}
+
+message MessagesList {
+    repeated string messages = 1;
+}
+
+// protoc
+// sudo apt install protobuf-compiler
+// protoc --version
+// go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+// go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+// export PATH=$PATH:$(go env GOPATH)/bin
+// protoc-gen-go --version
+// protoc-gen-go-grpc --version
+// protoc --go_out=. --go-grpc_out=. ./proto/greet.proto
